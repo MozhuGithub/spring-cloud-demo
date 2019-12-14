@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: prescription-service
+  profiles:
+    active: default
+#  cloud:
+#     config:
+#       name: prescription-service
+#       uri: http://localhost:8888
+#       profile: default

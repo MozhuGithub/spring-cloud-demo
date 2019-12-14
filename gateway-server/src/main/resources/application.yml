@@ -1,0 +1,48 @@
+server:
+  port: 5555
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+spring:
+#  sleuth:
+#    web:
+#      client:
+#        enabled: true
+#    sampler:
+#      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+#  zipkin:
+#    base-url: http://localhost:9411/zipkin/ # 指定了 Zipkin 服务器的地址
+#    sender:
+#      type: web
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user_service
+          uri: lb://user-service        #注意 这里是服务的事例名
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user/(?<path>.*), /$\{path}
+        - id: medicine_service
+          uri: lb://medicine-service
+          predicates:
+            - Path=/medicine/**
+          filters:
+            - RewritePath=/medicine/(?<path>.*), /$\{path}
+        - id: prescription_service
+          uri: lb://prescription-service
+          predicates:
+            - Path=/prescription/**
+          filters:
+            - RewritePath=/prescription/(?<path>.*), /$\{path}
+

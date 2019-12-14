@@ -1,0 +1,59 @@
+server:
+  port: 8083
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: userChangeTopic
+          content-type: application/json
+          binder: rabbit
+#        output:
+#          destination: userChangeTopic
+#          content-type: application/json
+#          binder: rabbit
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 101.37.152.16
+                port: 5672
+                username: guest
+                password: guest
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/prescription_service?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456
+  redis:
+    port: 6379
+    host: 127.0.0.1
+#  sleuth:
+#    web:
+#      client:
+#        enabled: true
+#    sampler:
+#      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+#  zipkin:
+#    base-url: http://localhost:9411/zipkin/ # 指定了 Zipkin 服务器的地址
+#    sender:
+#      type: web

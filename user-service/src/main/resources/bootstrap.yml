@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: default
+#  cloud:
+#     config:
+#       name: user-service
+#       uri: http://localhost:8888
+#       profile: default
